@@ -1,0 +1,31 @@
+{
+  "name": "vue-project",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --port 5050",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.8.0",
+    "@vueuse/core": "^9.13.0",
+    "lodash": "^4.17.21",
+    "monaco-editor": "^0.35.0",
+    "pinia": "^2.0.32",
+    "the-new-css-reset": "^1.8.4",
+    "vue": "^3.2.47",
+    "vue-router": "^4.1.6"
+  },
+  "devDependencies": {
+    "@rushstack/eslint-patch": "^1.2.0",
+    "@types/lodash": "^4.14.191",
+    "@vitejs/plugin-vue": "^4.0.0",
+    "@vue/eslint-config-prettier": "^7.1.0",
+    "eslint": "^8.34.0",
+    "eslint-plugin-vue": "^9.9.0",
+    "prettier": "^2.8.4",
+    "sass": "^1.58.3",
+    "vite": "^4.1.4"
+  }
+}
