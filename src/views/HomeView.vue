@@ -11,24 +11,23 @@ what you get"
     <div class="flex">
       <div class="info">
         <h1>
-          Type in the Game Pin you see on the big screen or if you want to
-          practice type in <span>PRACTICE</span>.
+          WYCIWYG er et en utfordring der du skal skrive HTML og CSS for å lage
+          det du ser i referanse bildet uten å se resultat. Fyll inn din
+          informasjon for å starte. Det vil bli trekt en vinner etter TDC. PS.
+          <br />Du har kun 5 minutter på deg.
         </h1>
       </div>
       <div class="wrapper">
-        <label for="GamePin">Game pin</label>
-        <input
-          type="text"
-          inputmode="numeric"
-          pattern="[0-9]*"
-          placeholder="000000"
-          name="Game pin"
-          v-model="gamePin"
-          max
-        />
+        <label for="name">Navn</label>
+        <input type="text" name="Game pin" v-model="name" required />
+        <label for="email">Epost</label>
+        <input type="email" name="Game pin" v-model="email" required />
+        <label for="phone">Telefon</label>
+        <input type="tel" name="Game pin" v-model="phone" required />
+
         <span class="errorMsg" v-if="errorMsg">{{ errorMsg }}</span>
 
-        <button @click="findChallenge">Enter</button>
+        <button @click="startGame">Enter</button>
       </div>
     </div>
   </div>
@@ -38,14 +37,36 @@ what you get"
 import { ref } from "vue";
 import { supabase } from "@/supabase";
 import router from "@/router";
+import { usePlayerInfoStore } from "@/stores/playerInfo";
 
-const gamePin = ref(null);
+const gamePin = "N6878F";
+const name = ref("");
+const email = ref("");
+const phone = ref("");
 const errorMsg = ref(null);
+const playerInfoStore = usePlayerInfoStore();
+
+async function startGame() {
+  if (!name.value || !email.value || !phone.value) {
+    errorMsg.value = "Vennligst fyll ut alle feltene.";
+    return;
+  }
+  await setPlayerInfo();
+  await findChallenge();
+}
+
+async function setPlayerInfo() {
+  playerInfoStore.setName(name.value);
+  playerInfoStore.setEmail(email.value);
+  playerInfoStore.setPhone(phone.value);
+}
 
 async function findChallenge() {
+  console.log(gamePin);
+
   const challengeID = ref(null);
-  if (gamePin.value) {
-    challengeID.value = await getChallengeIdByGamePin(gamePin.value);
+  if (gamePin) {
+    challengeID.value = await getChallengeIdByGamePin(gamePin);
 
     if (challengeID.value) {
       router.push({
@@ -75,8 +96,8 @@ async function getChallengeIdByGamePin(gamePin) {
 <style lang="scss" scoped>
 .logo-wrapper {
   display: flex;
-  padding-top: 200px;
-  padding-bottom: 100px;
+  padding-top: 40px;
+  padding-bottom: 60px;
   justify-content: center;
 }
 
@@ -106,14 +127,17 @@ h1 span {
   margin-bottom: 40px;
 }
 
-input[type="text"] {
+input[type="text"],
+input[type="tel"],
+input[type="email"] {
   background: $dark-gray;
   border: 2px solid $bv-orange;
   padding: 20px;
   width: 100%;
   color: $bv-green;
-  font-size: 75px;
+  font-size: 40px;
   line-height: 1;
+  margin-bottom: 20px;
 
   &::placeholder {
     color: #494949;
@@ -144,7 +168,8 @@ button {
   border: 2px solid $bv-orange;
   padding: 20px;
 
-  &:hover {
+  &:hover,
+  &:focus {
     background-color: $bv-dark-orange;
   }
 
