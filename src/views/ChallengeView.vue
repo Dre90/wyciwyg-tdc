@@ -1,5 +1,4 @@
 <template>
-  <Name />
   <header>
     <router-link to="/">Back</router-link>
     <div class="iconName-Wrapper">
@@ -30,40 +29,38 @@
     </div>
 
     <div class="name">
-      {{ nameStore.name }}
+      {{ playerInfoStore.name }}
     </div>
     <div class="button-container">
       <Reference :imageUrl="challenge.image_url" />
       <Instructions :instructions="challenge.instructions" />
       <ResultViewer v-if="challenge.practice" :challengeID="challenge.id" />
-      <FinishedConfirmation
+      <!-- <FinishedConfirmation
         v-if="!challenge.practice"
         :challengeID="challenge.id"
-      />
+      /> -->
     </div>
     <Combo
       :value="combo"
       :challengeID="challenge.id"
-      :resultID="nameStore.name"
+      :resultID="playerInfoStore.name"
     />
   </div>
 </template>
 
 <script setup>
-import { onMounted, onBeforeMount, ref } from "vue";
+import { onBeforeMount, ref } from "vue";
 import { supabase } from "@/supabase";
-import { useNameStore } from "@/stores/name";
+import { usePlayerInfoStore } from "@/stores/playerInfo";
 
-import Name from "@/components/NameComponent.vue";
 import MonacoEditor from "@/components/MonacoEditor.vue";
 import Instructions from "@/components/InstructionsComponent.vue";
 import Reference from "@/components/ReferenceComponent.vue";
 import ResultViewer from "@/components/ResultViewer.vue";
-import FinishedConfirmation from "../components/FinishedConfirmation.vue";
+//import FinishedConfirmation from "../components/FinishedConfirmation.vue";
 import Combo from "../components/ComboComponent.vue";
-import { sendStats } from "../helpers/Stats";
 
-const nameStore = useNameStore();
+const playerInfoStore = usePlayerInfoStore();
 
 const props = defineProps({
   id: {
@@ -99,16 +96,6 @@ async function getChallengeById(id) {
 
   if (data) challenge.value = data;
 }
-
-onMounted(async () => {
-  if (nameStore.name) {
-    await sendStats("combo", 0, props.id, nameStore.name);
-  } else {
-    nameStore.$subscribe(async (mutation, state) => {
-      await sendStats("combo", 0, props.id, state.name);
-    });
-  }
-});
 
 onBeforeMount(() => {
   getChallengeById(props.id);

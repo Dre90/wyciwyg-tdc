@@ -17,7 +17,7 @@ import { supabase } from "@/supabase";
 import { ref, onBeforeMount } from "vue";
 import router from "@/router";
 import { useEditorValuesStore } from "@/stores/editorValues";
-import { useNameStore } from "@/stores/name";
+import { usePlayerInfoStore } from "@/stores/playerInfo";
 
 const props = defineProps({
   challengeID: {
@@ -27,7 +27,7 @@ const props = defineProps({
 });
 
 const editorValuesStore = useEditorValuesStore();
-const nameStore = useNameStore();
+const playerInfoStore = usePlayerInfoStore();
 const instructionsContainer = ref(null);
 
 function show() {
@@ -42,7 +42,7 @@ async function save() {
   const id = "challenge" + props.challengeID;
   const storeEditorValueObject = editorValuesStore.getEditorValueById(id);
   const code = storeEditorValueObject.value;
-  const name = nameStore.name;
+  const name = playerInfoStore.name;
 
   try {
     const { error, status } = await supabase
