@@ -62,8 +62,6 @@ async function setPlayerInfo() {
 }
 
 async function findChallenge() {
-  console.log(gamePin);
-
   const challengeID = ref(null);
   if (gamePin) {
     challengeID.value = await getChallengeIdByGamePin(gamePin);

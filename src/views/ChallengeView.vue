@@ -35,10 +35,11 @@
       <Reference :imageUrl="challenge.image_url" />
       <Instructions :instructions="challenge.instructions" />
       <ResultViewer v-if="challenge.practice" :challengeID="challenge.id" />
-      <!-- <FinishedConfirmation
+      <FinishedConfirmation
         v-if="!challenge.practice"
         :challengeID="challenge.id"
-      /> -->
+        :imageUrl="challenge.image_url"
+      />
     </div>
     <Combo
       :value="combo"
@@ -57,7 +58,7 @@ import MonacoEditor from "@/components/MonacoEditor.vue";
 import Instructions from "@/components/InstructionsComponent.vue";
 import Reference from "@/components/ReferenceComponent.vue";
 import ResultViewer from "@/components/ResultViewer.vue";
-//import FinishedConfirmation from "../components/FinishedConfirmation.vue";
+import FinishedConfirmation from "../components/FinishedConfirmation.vue";
 import Combo from "../components/ComboComponent.vue";
 
 const playerInfoStore = usePlayerInfoStore();
