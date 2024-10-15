@@ -170,6 +170,10 @@ async function fetchData(url) {
   }
 }
 
+defineExpose({
+  showResult,
+});
+
 onBeforeMount(() => {});
 </script>
 

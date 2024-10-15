@@ -1,11 +1,16 @@
 <template>
   <div ref="instructionsContainer" class="instructions">
-    <div class="blocker" :onClick="close"></div>
+    <div v-if="!firstTimeInstructions" class="blocker" :onClick="close"></div>
     <div class="wrapper">
-      <span class="close" :onClick="close">Close</span>
+      <span v-if="!firstTimeInstructions" class="close" :onClick="close"
+        >Close</span
+      >
       <div class="content">
         {{ props.instructions }}
       </div>
+      <button v-if="firstTimeInstructions" class="start" :onClick="close">
+        Start
+      </button>
     </div>
   </div>
   <button :onclick="show">Instructions</button>
@@ -13,6 +18,10 @@
 
 <script setup>
 import { ref, onBeforeMount, onBeforeUnmount } from "vue";
+
+const emit = defineEmits(["close-instructions"]);
+
+const firstTimeInstructions = ref(true);
 
 const props = defineProps({
   instructions: {
@@ -28,13 +37,24 @@ function show() {
 
 function close() {
   instructionsContainer.value.style.display = "none";
+  if (firstTimeInstructions.value) {
+    emit("close-instructions");
+
+    firstTimeInstructions.value = false;
+  }
 }
 
 function escapeHandler(e) {
   if (e.key === "Escape") {
-    close();
+    if (!firstTimeInstructions.value) {
+      close();
+    }
   }
 }
+
+defineExpose({
+  show,
+});
 
 onBeforeMount(() => {
   document.addEventListener("keydown", escapeHandler);
@@ -47,7 +67,7 @@ onBeforeUnmount(() => {
 
 <style lang="scss" scoped>
 .instructions {
-  display: none; /* Hidden by default */
+  display: block; /* Hidden by default */
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
   left: 0;
@@ -55,6 +75,8 @@ onBeforeUnmount(() => {
   width: 100%; /* Full width */
   height: 100%; /* Full height */
   overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
 
   .blocker {
     position: fixed;
@@ -130,6 +152,25 @@ button {
     background-color: $bv-green;
     color: $bv-blue;
     border: 2px solid $bv-blue;
+  }
+}
+
+button.start {
+  background-color: $bv-orange;
+  color: $bv-text-color-dark;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 26px;
+  border: 2px solid $bv-orange;
+
+  &:hover {
+    background-color: $bv-dark-orange;
+  }
+
+  &:active {
+    background-color: $bv-text-color-dark;
+    color: $bv-orange;
+    border: 2px solid $bv-orange;
   }
 }
 </style>

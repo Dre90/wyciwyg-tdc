@@ -1,6 +1,12 @@
 <template>
   <header>
     <router-link to="/">Back</router-link>
+    <div class="timer">
+      <span>Time left:</span>
+      <span :class="['time', { pulsating: isPulsating }]">{{
+        formattedTime
+      }}</span>
+    </div>
     <div class="iconName-Wrapper">
       <img
         v-if="challenge.practice"
@@ -33,9 +39,14 @@
     </div>
     <div class="button-container">
       <Reference :imageUrl="challenge.image_url" />
-      <Instructions :instructions="challenge.instructions" />
+      <Instructions
+        ref="instructions"
+        :instructions="challenge.instructions"
+        @close-instructions="startTimer"
+      />
       <ResultViewer v-if="challenge.practice" :challengeID="challenge.id" />
       <FinishedConfirmation
+        ref="finishedConfirmation"
         v-if="!challenge.practice"
         :challengeID="challenge.id"
         :imageUrl="challenge.image_url"
@@ -50,7 +61,7 @@
 </template>
 
 <script setup>
-import { onBeforeMount, ref } from "vue";
+import { onBeforeMount, ref, computed, onMounted } from "vue";
 import { supabase } from "@/supabase";
 import { usePlayerInfoStore } from "@/stores/playerInfo";
 
@@ -74,6 +85,9 @@ const challenge = ref("");
 let comboTimer = ref("");
 const combo = ref(0);
 const isLoading = ref(true);
+const timeLeft = ref(0);
+const finishedConfirmation = ref(null);
+const instructions = ref(null);
 
 const comboUpdate = () => {
   combo.value++;
@@ -97,6 +111,42 @@ async function getChallengeById(id) {
 
   if (data) challenge.value = data;
 }
+
+const formattedTime = computed(() => {
+  if (timeLeft.value < 60) {
+    return timeLeft.value;
+  } else {
+    const minutes = Math.floor(timeLeft.value / 60);
+    const seconds = timeLeft.value % 60;
+    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+  }
+});
+
+const startTimer = () => {
+  const TIME = 300; // 300 = 5 minutes
+  timeLeft.value = TIME; // Reset timer to 5 minutes
+  countdown();
+};
+
+const countdown = () => {
+  if (timeLeft.value > 0) {
+    setTimeout(() => {
+      timeLeft.value--;
+      countdown();
+    }, 1000);
+  } else {
+    timeUp();
+  }
+};
+
+const isPulsating = computed(() => timeLeft.value < 30);
+
+const timeUp = () => {
+  console.log("Time is up!");
+  if (finishedConfirmation.value && finishedConfirmation.value.showResult) {
+    finishedConfirmation.value.showResult();
+  }
+};
 
 onBeforeMount(() => {
   getChallengeById(props.id);
@@ -130,6 +180,38 @@ header {
     }
   }
 
+  .timer {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    span {
+      font-weight: 700;
+      font-size: 22px;
+      line-height: 32px;
+    }
+    .time {
+      font-weight: 700;
+      font-size: 3em;
+      transition: font-size 0.5s ease;
+    }
+    .pulsating {
+      font-size: 3.5em;
+      color: $bv-orange;
+      animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.1);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+  }
   .iconName-Wrapper {
     display: flex;
 
