@@ -81,7 +81,7 @@ function show() {
 async function showResult() {
   const id = "challenge" + props.challengeID;
   resContainer.value.srcdoc = editorValuesStore.getEditorValueById(id).value;
-  //await save();
+  await save();
 
   score.value = await getScore();
 

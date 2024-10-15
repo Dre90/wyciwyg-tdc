@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "@/views/HomeView.vue";
+import LeaderBoardView from "@/views/LeaderBoardView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -25,27 +26,9 @@ const router = createRouter({
       },
     },
     {
-      path: "/vote",
-      name: "Vote",
-      // route level code-splitting
-      // this generates a separate chunk (dashboard.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import("../views/VoteView.vue"),
-    },
-    {
-      path: "/vote/:id",
-      name: "Vote challenge",
-      // route level code-splitting
-      // this generates a separate chunk (dashboard.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import("../views/VoteChallengeView.vue"),
-      props: (route) => {
-        const id = Number.parseInt(route.params.id, 10);
-        if (Number.isNaN(id)) {
-          return 0;
-        }
-        return { id };
-      },
+      path: "/leaderboard",
+      name: "leaderboard",
+      component: LeaderBoardView,
     },
   ],
 });
