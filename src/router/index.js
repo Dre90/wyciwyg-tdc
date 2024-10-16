@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "@/views/HomeView.vue";
 import LeaderBoardView from "@/views/LeaderBoardView.vue";
+import PersonvernView from "@/views/PersonvernView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -29,6 +30,11 @@ const router = createRouter({
       path: "/leaderboard",
       name: "leaderboard",
       component: LeaderBoardView,
+    },
+    {
+      path: "/personvern",
+      name: "personvern",
+      component: PersonvernView,
     },
   ],
 });

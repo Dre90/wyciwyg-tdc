@@ -7,6 +7,7 @@ export const usePlayerInfoStore = defineStore({
     name: useStorage("name", ""),
     email: useStorage("email", ""),
     phone: useStorage("phone", ""),
+    personvernerChecked: useStorage("personvernerChecked", ""),
   }),
   actions: {
     setName(input) {
@@ -17,6 +18,9 @@ export const usePlayerInfoStore = defineStore({
     },
     setPhone(input) {
       this.phone = input;
+    },
+    setPersonvernerChecked(input) {
+      this.personvernerChecked = input;
     },
   },
 });
