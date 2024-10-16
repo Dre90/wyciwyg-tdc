@@ -40,7 +40,7 @@
 
 <script setup>
 import { supabase } from "@/supabase";
-import { ref, onBeforeMount, onMounted } from "vue";
+import { ref } from "vue";
 import GridLoader from "vue-spinner/src/GridLoader.vue";
 import { useRouter } from "vue-router";
 
@@ -66,13 +66,11 @@ const instructionsContainer = ref(null);
 const resultContainer = ref(null);
 const resContainer = ref(null);
 
-const score = ref(0);
-const loadingScore = ref(false);
+const score = ref("");
+const loadingScore = ref(true);
 const color = "#79fe9d";
 const size = "25px";
 const savedContentID = ref("");
-
-onMounted(() => {});
 
 function show() {
   instructionsContainer.value.style.display = "flex";
@@ -81,12 +79,12 @@ function show() {
 async function showResult() {
   const id = "challenge" + props.challengeID;
   resContainer.value.srcdoc = editorValuesStore.getEditorValueById(id).value;
-  await save();
-
-  score.value = await getScore();
 
   instructionsContainer.value.style.display = "none";
   resultContainer.value.style.display = "flex";
+
+  await getScore();
+  await save();
 }
 
 function close() {
@@ -95,25 +93,18 @@ function close() {
 }
 
 async function getScore() {
-  /* savedContentID.value */
-  const score = 90;
-
-  /*  fetchData("https://api.example.com/data")
+  const id = "challenge" + props.challengeID;
+  await fetchData(
+    "https://imagecompare.prototyp.io/api/wyciwyg",
+    editorValuesStore.getEditorValueById(id).value
+  )
     .then((data) => {
-      console.log("Fetched data:", data);
+      score.value = data.score;
+      loadingScore.value = false;
     })
     .catch((error) => {
       console.error("Error:", error);
-    }); */
-
-  return score;
-}
-
-async function updateRowWithScore() {
-  const { error } = await supabase
-    .from("TDC2024")
-    .update({ score: score.value })
-    .eq("id", savedContentID.value);
+    });
 }
 
 async function save() {
@@ -130,6 +121,7 @@ async function save() {
         phone: playerInfoStore.phone,
         personvern: playerInfoStore.personvernerChecked,
         value: code,
+        score: score.value,
         challenge_id: props.challengeID,
       })
       .select("id");
@@ -153,25 +145,30 @@ async function reset() {
   router.push("/");
 }
 
-async function fetchData(url) {
+const fetchData = async (url, data) => {
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "text/plain",
+      },
+      body: data,
+    });
     if (!response.ok) {
+      console.log(response);
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    const data = await response.json();
-    return data;
+    const result = await response.json();
+    return result;
   } catch (error) {
     console.error("Error fetching data:", error);
     throw error;
   }
-}
+};
 
 defineExpose({
   showResult,
 });
-
-onBeforeMount(() => {});
 </script>
 
 <style lang="scss" scoped>
