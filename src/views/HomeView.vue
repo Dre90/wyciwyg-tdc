@@ -11,10 +11,12 @@ what you get"
     <div class="flex">
       <div class="info">
         <h1>
-          WYCIWYG er et en utfordring der du skal skrive HTML og CSS for å lage
-          det du ser i referanse bildet uten å se resultat. Fyll inn din
-          informasjon for å starte. Det vil bli trekt en vinner etter TDC. PS.
-          <br />Du har kun 5 minutter på deg.
+          WYCIWYG er inspirert av Code in the Dark og er en konkurranse der du
+          skal skrive HTML og CSS for å kopiere et referansebilde uten mulighet
+          til å forhåndsvise resultatet. <br />
+          Fyll ut feltene under for å starte – det blir trukket en vinner etter
+          TDC. <br />
+          PS! Du har kun 4 minutter på deg
         </h1>
       </div>
       <div class="wrapper">
@@ -24,6 +26,24 @@ what you get"
         <input type="email" name="Game pin" v-model="email" required />
         <label for="phone">Telefon</label>
         <input type="tel" name="Game pin" v-model="phone" required />
+
+        <label class="container">
+          <p>
+            Jeg samtykker til at personopplysninger lagres fram til konkurransen
+            er avsluttet og senest til 31.10.24. Opplysningene blir kun brukt
+            til å kontakte deg som eventuell vinner av konkurransen.
+            <a href="/personvern" target="_blank" rel="noopener noreferrer"
+              >Personvernerklæring</a
+            >
+          </p>
+          <input
+            type="checkbox"
+            id="checkbox"
+            v-model="personvernerChecked"
+            required
+          />
+          <span class="checkmark"></span>
+        </label>
 
         <span class="errorMsg" v-if="errorMsg">{{ errorMsg }}</span>
 
@@ -43,11 +63,17 @@ const gamePin = "N6878F";
 const name = ref("");
 const email = ref("");
 const phone = ref("");
+const personvernerChecked = ref(false);
 const errorMsg = ref(null);
 const playerInfoStore = usePlayerInfoStore();
 
 async function startGame() {
-  if (!name.value || !email.value || !phone.value) {
+  if (
+    !name.value ||
+    !email.value ||
+    !phone.value ||
+    !personvernerChecked.value
+  ) {
     errorMsg.value = "Vennligst fyll ut alle feltene.";
     return;
   }
@@ -59,6 +85,7 @@ async function setPlayerInfo() {
   playerInfoStore.setName(name.value);
   playerInfoStore.setEmail(email.value);
   playerInfoStore.setPhone(phone.value);
+  playerInfoStore.setPersonvernerChecked(personvernerChecked.value);
 }
 
 async function findChallenge() {
@@ -121,8 +148,20 @@ h1 span {
   margin: 20px;
   display: flex;
   flex-direction: column;
-  max-width: 400px;
+  max-width: 700px;
   margin-bottom: 40px;
+  p {
+    font-size: 18px;
+    line-height: 28px;
+  }
+
+  a {
+    text-decoration: underline;
+
+    &:hover {
+      color: $bv-green;
+    }
+  }
 }
 
 input[type="text"],
@@ -142,10 +181,19 @@ input[type="email"] {
   }
 }
 
+input[type="checkbox"] {
+  width: 30px;
+  height: 30px;
+  border: 2px solid $bv-orange;
+  color: $bv-orange;
+  cursor: pointer;
+}
+
 .errorMsg {
-  margin-top: 5px;
-  margin-bottom: 5px;
-  font-size: 20px;
+  margin-top: 40px;
+  margin-bottom: 10px;
+  font-size: 30px;
+  color: $bv-orange;
 }
 
 label {
@@ -176,5 +224,73 @@ button {
     color: $bv-orange;
     border: 2px solid $bv-orange;
   }
+}
+
+/* The container */
+.container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+}
+
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.container input:checked ~ .checkmark {
+  background-color: $bv-orange;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.container .checkmark:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
 }
 </style>

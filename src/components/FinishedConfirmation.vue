@@ -81,7 +81,7 @@ function show() {
 async function showResult() {
   const id = "challenge" + props.challengeID;
   resContainer.value.srcdoc = editorValuesStore.getEditorValueById(id).value;
-  //await save();
+  await save();
 
   score.value = await getScore();
 
@@ -122,16 +122,13 @@ async function save() {
   const code = storeEditorValueObject.value;
 
   try {
-    /*   const { error, status } = await supabase
-      .from("TDC2024")
-      .insert([{ name: name, value: code, challenge_id: props.challengeID }]);
- */
     const { data, error, status } = await supabase
       .from("TDC2024")
       .upsert({
         name: playerInfoStore.name,
         email: playerInfoStore.email,
         phone: playerInfoStore.phone,
+        personvern: playerInfoStore.personvernerChecked,
         value: code,
         challenge_id: props.challengeID,
       })
