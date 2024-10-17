@@ -20,15 +20,16 @@ what you get"
         </h1>
       </div>
       <div class="wrapper">
-        <label for="name">Navn</label>
+        <label for="name">Navn<span class="required-star">*</span></label>
         <input type="text" name="Game pin" v-model="name" required />
-        <label for="email">Epost</label>
+        <label for="email">Epost<span class="required-star">*</span></label>
         <input type="email" name="Game pin" v-model="email" required />
         <label for="phone">Telefon</label>
-        <input type="tel" name="Game pin" v-model="phone" required />
+        <input type="tel" name="Game pin" v-model="phone" />
 
-        <label class="container">
+        <label class="container personverner">
           <p>
+            <span class="required-star">*</span>
             Jeg samtykker til at personopplysninger lagres fram til konkurransen
             er avsluttet og senest til 31.10.24. Opplysningene blir kun brukt
             til å kontakte deg som eventuell vinner av konkurransen.
@@ -42,6 +43,15 @@ what you get"
             v-model="personvernerChecked"
             required
           />
+          <span class="checkmark"></span>
+        </label>
+
+        <label class="container">
+          <p>
+            Jeg samtykker til at Bouvet kan kontakte meg i rekruttering
+            sammenheng.
+          </p>
+          <input type="checkbox" id="checkbox" v-model="rekrutteringChecked" />
           <span class="checkmark"></span>
         </label>
 
@@ -64,17 +74,13 @@ const name = ref("");
 const email = ref("");
 const phone = ref("");
 const personvernerChecked = ref(false);
+const rekrutteringChecked = ref(false);
 const errorMsg = ref(null);
 const playerInfoStore = usePlayerInfoStore();
 
 async function startGame() {
-  if (
-    !name.value ||
-    !email.value ||
-    !phone.value ||
-    !personvernerChecked.value
-  ) {
-    errorMsg.value = "Vennligst fyll ut alle feltene.";
+  if (!name.value || !email.value || !personvernerChecked.value) {
+    errorMsg.value = "Vennligst fyll ut alle påkrevde feltene.";
     return;
   }
   await setPlayerInfo();
@@ -86,6 +92,7 @@ async function setPlayerInfo() {
   playerInfoStore.setEmail(email.value);
   playerInfoStore.setPhone(phone.value);
   playerInfoStore.setPersonvernerChecked(personvernerChecked.value);
+  playerInfoStore.setRekrutteringChecked(rekrutteringChecked.value);
 }
 
 async function findChallenge() {
@@ -201,6 +208,13 @@ label {
   line-height: 28px;
   color: $text-color;
   margin-bottom: 10px;
+  display: flex;
+
+  .required-star {
+    color: $bv-orange;
+    margin-left: 5px;
+    font-size: 25px;
+  }
 }
 
 button {
@@ -231,7 +245,7 @@ button {
   display: block;
   position: relative;
   padding-left: 35px;
-  margin-bottom: 12px;
+  margin-bottom: 30px;
   cursor: pointer;
   font-size: 22px;
   -webkit-user-select: none;
@@ -257,6 +271,10 @@ button {
   height: 25px;
   width: 25px;
   background-color: #eee;
+}
+
+.personverner .checkmark {
+  top: 10px;
 }
 
 /* On mouse-over, add a grey background color */
