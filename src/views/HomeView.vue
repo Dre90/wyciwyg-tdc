@@ -64,10 +64,11 @@ what you get"
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onBeforeMount } from "vue";
 import { supabase } from "@/supabase";
 import router from "@/router";
 import { usePlayerInfoStore } from "@/stores/playerInfo";
+import { useEditorValuesStore } from "@/stores/editorValues";
 
 const gamePin = "N6878F";
 const name = ref("");
@@ -77,6 +78,7 @@ const personvernerChecked = ref(false);
 const rekrutteringChecked = ref(false);
 const errorMsg = ref(null);
 const playerInfoStore = usePlayerInfoStore();
+const editorValuesStore = useEditorValuesStore();
 
 async function startGame() {
   if (!name.value || !email.value || !personvernerChecked.value) {
@@ -123,6 +125,15 @@ async function getChallengeIdByGamePin(gamePin) {
     return data.id;
   }
 }
+
+onBeforeMount(() => {
+  editorValuesStore.updateResetEditorValue(true);
+  playerInfoStore.setName("");
+  playerInfoStore.setEmail("");
+  playerInfoStore.setPhone("");
+  playerInfoStore.setPersonvernerChecked(false);
+  playerInfoStore.setRekrutteringChecked(false);
+});
 </script>
 
 <style lang="scss" scoped>

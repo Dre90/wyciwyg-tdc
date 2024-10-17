@@ -142,6 +142,8 @@ async function reset() {
   playerInfoStore.setName("");
   playerInfoStore.setEmail("");
   playerInfoStore.setPhone("");
+  playerInfoStore.setPersonvernerChecked(false);
+  playerInfoStore.setRekrutteringChecked(false);
   close();
   router.push("/");
 }
