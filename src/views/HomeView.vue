@@ -61,7 +61,7 @@ import { useEditorValuesStore } from "@/stores/editorValues";
 
 const gamePin = "N6878F";
 const name = ref("");
-const email = ref("");
+//const email = ref("");
 const phone = ref("");
 const personvernerChecked = ref(false);
 const errorMsg = ref(null);
@@ -69,7 +69,7 @@ const playerInfoStore = usePlayerInfoStore();
 const editorValuesStore = useEditorValuesStore();
 
 async function startGame() {
-  if (!name.value || !email.value || !personvernerChecked.value) {
+  if (!name.value || !phone.value || !personvernerChecked.value) {
     errorMsg.value = "Vennligst fyll ut alle påkrevde feltene.";
     return;
   }
