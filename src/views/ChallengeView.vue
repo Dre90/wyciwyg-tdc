@@ -123,8 +123,8 @@ const formattedTime = computed(() => {
 });
 
 const startTimer = () => {
-  const TIME = 300; // 300 = 5 minutes
-  timeLeft.value = TIME; // Reset timer to 5 minutes
+  const TIME = 240; // 240 = 4 minutes
+  timeLeft.value = TIME;
   countdown();
 };
 
