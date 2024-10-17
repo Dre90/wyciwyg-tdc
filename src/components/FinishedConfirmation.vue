@@ -206,7 +206,7 @@ defineExpose({
   }
 
   .resultWrapper {
-    width: 90%;
+    width: 95%;
 
     .comparison {
       display: grid;
@@ -217,6 +217,12 @@ defineExpose({
         width: 100%;
         height: 100%;
         background-color: #ffffff;
+        width: 1478px;
+        height: 433px;
+        background-color: #ffffff;
+        position: absolute;
+        transform-origin: top left;
+        scale: 0.6;
       }
     }
 
