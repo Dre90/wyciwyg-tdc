@@ -117,10 +117,9 @@ async function save() {
       .from("TDC2024")
       .upsert({
         name: playerInfoStore.name,
-        email: playerInfoStore.email,
+        /*  email: playerInfoStore.email, */
         phone: playerInfoStore.phone,
         personvern: playerInfoStore.personvernerChecked,
-        rekruttering: playerInfoStore.rekrutteringChecked,
         value: code,
         score: score.value,
         challenge_id: props.challengeID,
@@ -140,10 +139,9 @@ async function save() {
 async function reset() {
   editorValuesStore.updateResetEditorValue(true);
   playerInfoStore.setName("");
-  playerInfoStore.setEmail("");
+  /* playerInfoStore.setEmail(""); */
   playerInfoStore.setPhone("");
   playerInfoStore.setPersonvernerChecked(false);
-  playerInfoStore.setRekrutteringChecked(false);
   close();
   router.push("/");
 }
