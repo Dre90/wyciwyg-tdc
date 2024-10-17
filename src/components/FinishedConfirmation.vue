@@ -120,6 +120,7 @@ async function save() {
         email: playerInfoStore.email,
         phone: playerInfoStore.phone,
         personvern: playerInfoStore.personvernerChecked,
+        rekruttering: playerInfoStore.rekrutteringChecked,
         value: code,
         score: score.value,
         challenge_id: props.challengeID,
