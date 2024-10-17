@@ -8,7 +8,6 @@ export const usePlayerInfoStore = defineStore({
     email: useStorage("email", ""),
     phone: useStorage("phone", ""),
     personvernerChecked: useStorage("personvernerChecked", false),
-    rekrutteringChecked: useStorage("rekrutteringChecked", false),
   }),
   actions: {
     setName(input) {
@@ -22,9 +21,6 @@ export const usePlayerInfoStore = defineStore({
     },
     setPersonvernerChecked(input) {
       this.personvernerChecked = input;
-    },
-    setRekrutteringChecked(input) {
-      this.rekrutteringChecked = input;
     },
   },
 });

@@ -13,26 +13,24 @@ what you get"
         <h1>
           WYCIWYG er inspirert av Code in the Dark og er en konkurranse der du
           skal skrive HTML og CSS for å kopiere et referansebilde uten mulighet
-          til å forhåndsvise resultatet. <br />
-          Fyll ut feltene under for å starte – det blir trukket en vinner etter
-          TDC. <br />
-          PS! Du har kun 4 minutter på deg
+          til å forhåndsvise resultatet. Fyll ut feltene under for å starte.
+          <br />PS! Du har kun 4 minutter på deg
         </h1>
       </div>
       <div class="wrapper">
         <label for="name">Navn<span class="required-star">*</span></label>
         <input type="text" name="Game pin" v-model="name" required />
-        <label for="email">Epost<span class="required-star">*</span></label>
-        <input type="email" name="Game pin" v-model="email" required />
-        <label for="phone">Telefon</label>
-        <input type="tel" name="Game pin" v-model="phone" />
+        <!-- <label for="email">Epost<span class="required-star">*</span></label>
+        <input type="email" name="Game pin" v-model="email" required /> -->
+        <label for="phone">Telefon<span class="required-star">*</span></label>
+        <input type="tel" name="Game pin" v-model="phone" required />
 
         <label class="container personverner">
           <p>
             <span class="required-star">*</span>
             Jeg samtykker til at personopplysninger lagres fram til konkurransen
-            er avsluttet og senest til 31.10.24. Opplysningene blir kun brukt
-            til å kontakte deg som eventuell vinner av konkurransen.
+            er avsluttet. Opplysningene blir kun brukt til å kontakte deg som
+            eventuell vinner av konkurransen.
             <a href="/personvern" target="_blank" rel="noopener noreferrer"
               >Personvernerklæring</a
             >
@@ -46,18 +44,9 @@ what you get"
           <span class="checkmark"></span>
         </label>
 
-        <label class="container">
-          <p>
-            Jeg samtykker til at Bouvet kan kontakte meg i rekruttering
-            sammenheng.
-          </p>
-          <input type="checkbox" id="checkbox" v-model="rekrutteringChecked" />
-          <span class="checkmark"></span>
-        </label>
-
         <span class="errorMsg" v-if="errorMsg">{{ errorMsg }}</span>
 
-        <button @click="startGame">Enter</button>
+        <button @click="startGame">Gå til konkurransen</button>
       </div>
     </div>
   </div>
@@ -75,7 +64,6 @@ const name = ref("");
 const email = ref("");
 const phone = ref("");
 const personvernerChecked = ref(false);
-const rekrutteringChecked = ref(false);
 const errorMsg = ref(null);
 const playerInfoStore = usePlayerInfoStore();
 const editorValuesStore = useEditorValuesStore();
@@ -91,10 +79,9 @@ async function startGame() {
 
 async function setPlayerInfo() {
   playerInfoStore.setName(name.value);
-  playerInfoStore.setEmail(email.value);
+  /* playerInfoStore.setEmail(email.value); */
   playerInfoStore.setPhone(phone.value);
   playerInfoStore.setPersonvernerChecked(personvernerChecked.value);
-  playerInfoStore.setRekrutteringChecked(rekrutteringChecked.value);
 }
 
 async function findChallenge() {
@@ -129,10 +116,9 @@ async function getChallengeIdByGamePin(gamePin) {
 onBeforeMount(() => {
   editorValuesStore.updateResetEditorValue(true);
   playerInfoStore.setName("");
-  playerInfoStore.setEmail("");
+  /* playerInfoStore.setEmail(""); */
   playerInfoStore.setPhone("");
   playerInfoStore.setPersonvernerChecked(false);
-  playerInfoStore.setRekrutteringChecked(false);
 });
 </script>
 
