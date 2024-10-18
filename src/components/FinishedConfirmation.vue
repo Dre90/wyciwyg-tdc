@@ -47,6 +47,8 @@ import { useRouter } from "vue-router";
 import { useEditorValuesStore } from "@/stores/editorValues";
 import { usePlayerInfoStore } from "@/stores/playerInfo";
 
+const emit = defineEmits(["stop-timer"]);
+
 const props = defineProps({
   challengeID: {
     type: Number,
@@ -77,6 +79,7 @@ function show() {
 }
 
 async function showResult() {
+  emit("stop-timer");
   const id = "challenge" + props.challengeID;
   resContainer.value.srcdoc = editorValuesStore.getEditorValueById(id).value;
 
