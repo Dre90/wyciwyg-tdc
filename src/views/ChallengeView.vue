@@ -50,6 +50,7 @@
         v-if="!challenge.practice"
         :challengeID="challenge.id"
         :imageUrl="challenge.image_url"
+        @stop-timer="stopTimer"
       />
     </div>
     <Combo
@@ -88,6 +89,7 @@ const isLoading = ref(true);
 const timeLeft = ref(0);
 const finishedConfirmation = ref(null);
 const instructions = ref(null);
+const finishedTimer = ref(false);
 
 const comboUpdate = () => {
   combo.value++;
@@ -129,6 +131,8 @@ const startTimer = () => {
 };
 
 const countdown = () => {
+  if (finishedTimer.value) return;
+
   if (timeLeft.value > 0) {
     setTimeout(() => {
       timeLeft.value--;
@@ -146,6 +150,10 @@ const timeUp = () => {
   if (finishedConfirmation.value && finishedConfirmation.value.showResult) {
     finishedConfirmation.value.showResult();
   }
+};
+
+const stopTimer = () => {
+  finishedTimer.value = true;
 };
 
 onBeforeMount(() => {
