@@ -114,7 +114,7 @@ async function getChallengeIdByGamePin(gamePin) {
 }
 
 onBeforeMount(() => {
-  editorValuesStore.updateResetEditorValue(true);
+  //editorValuesStore.updateResetEditorValue(true);
   playerInfoStore.setName("");
   /* playerInfoStore.setEmail(""); */
   playerInfoStore.setPhone("");

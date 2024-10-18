@@ -84,14 +84,17 @@ onBeforeUnmount(() => {
 });
 
 function initMonacoEditor() {
+  /* editorValuesStore.setEditorValues(id, defaultValue);
   let storeEditorValueObject = editorValuesStore.getEditorValueById(id);
+ */
+  /*  let storeEditorValueObject = editorValuesStore.getEditorValueById(id);
   if (!storeEditorValueObject) {
     editorValuesStore.setEditorValues(id, defaultValue);
     storeEditorValueObject = editorValuesStore.getEditorValueById(id);
-  }
+  } */
 
   editor = monaco.editor.create(container.value, {
-    value: storeEditorValueObject.value,
+    value: defaultValue,
     language: "html",
     theme: "vs-dark",
     minimap: {
