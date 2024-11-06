@@ -84,9 +84,9 @@ onBeforeUnmount(() => {
 });
 
 function initMonacoEditor() {
-  /* editorValuesStore.setEditorValues(id, defaultValue);
-  let storeEditorValueObject = editorValuesStore.getEditorValueById(id);
- */
+  editorValuesStore.setEditorValues(id, defaultValue);
+  /* let storeEditorValueObject = editorValuesStore.getEditorValueById(id); */
+
   /*  let storeEditorValueObject = editorValuesStore.getEditorValueById(id);
   if (!storeEditorValueObject) {
     editorValuesStore.setEditorValues(id, defaultValue);
