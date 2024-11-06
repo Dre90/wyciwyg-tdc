@@ -22,7 +22,7 @@
         >. <br />
         Alle personopplysninger som samles inn (navn og telefon) blir kun brukt
         til å kontakte vinner av konkurransen og slettes når konkurransen er
-        avsluttet, senest innen 31.10.24.
+        avsluttet.
       </p>
     </div>
   </div>
